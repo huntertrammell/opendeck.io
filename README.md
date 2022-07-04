@@ -1,2 +1,3 @@
 # opendeck.io
-Open Source deck building community and API
+
+Opendeck.io is an open Source deck building community and API.
