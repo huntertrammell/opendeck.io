@@ -25,7 +25,7 @@ const Home: NextPage<IHomeProps> = ({cards}) => {
         </div>
       </section>
       <section>
-        <CardList cards={cards} />
+        {cards && <CardList cards={cards} />}
       </section>
     </>
   );

@@ -17,6 +17,20 @@ export default async function handler(
         where: {
           user_id: userId,
         },
+        include: {
+          user: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+          attack: true,
+          xpgain: true,
+        },
+        take: 20,
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
       return res.status(200).json(data);

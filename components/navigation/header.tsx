@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 
 export const Header: FunctionComponent = () => {
   const [isUserMenuExpanded, setIsUserMenuExpanded] = useState(false);
@@ -159,6 +159,7 @@ export const Header: FunctionComponent = () => {
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
                         tabIndex={-1}
+                        id="user-menu"
                       >
                         <Link href="/admin">
                           <a className="block px-4 py-2 text-sm text-gray-700">
@@ -187,9 +188,7 @@ export const Header: FunctionComponent = () => {
               <Link href="/about">
                 <a
                   className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  aria-current={
-                    router.asPath === "/about" ? "page" : "false"
-                  }
+                  aria-current={router.asPath === "/about" ? "page" : "false"}
                 >
                   How it works
                 </a>

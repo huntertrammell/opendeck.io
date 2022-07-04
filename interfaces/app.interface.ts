@@ -30,3 +30,9 @@ export interface IXP {
     card_id: number,
     createdAt: string
 }
+
+export interface IAlert {
+    uid: string;
+    type: string;
+    message: string;
+}

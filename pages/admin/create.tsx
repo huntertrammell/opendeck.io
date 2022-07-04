@@ -6,8 +6,10 @@ import React, { useState } from "react";
 import { Card } from "../../components/ui/card";
 import { ICard } from "../../interfaces/app.interface";
 
-const NewCard: NextPage = ({ session }: any) => {
+const NewCard: NextPage = () => {
   const router = useRouter();
+
+  const { data: session } = useSession();
 
   const [title, setTitle] = useState("Character Name");
   const [description, setDescription] = useState("Describe your character!");
@@ -77,12 +79,12 @@ const NewCard: NextPage = ({ session }: any) => {
 
   const createNewCard = async () => {
     const card = {
-      // @ts-ignore
       title,
       description,
       xp: 0,
       image_path,
-      user_id: session?.user.id,
+      // @ts-ignore
+      user_id: session?.user?.id,
     };
     const attacks = [
       {
@@ -107,13 +109,22 @@ const NewCard: NextPage = ({ session }: any) => {
 
       if (!response.ok) {
         console.error(response);
+        window.bus.publish("alert", {
+          type: "error",
+          message: response.statusText,
+        });
+        return;
       }
-
-      const data = response.json();
-
+      window.bus.publish("alert", {
+        type: "success",
+        message: "Your card has been published!",
+      });
       router.push("/admin");
     } catch (error) {
-      console.error(error);
+      window.bus.publish("alert", {
+        type: "error",
+        message: error,
+      });
     }
   };
   return (
