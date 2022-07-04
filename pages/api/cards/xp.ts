@@ -5,25 +5,29 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let takeCount = 20;
-  if (req.query.limit) takeCount = +(req.query.limit as string);
+  if (req.method === "POST") {
+    const { user_id: userId, card_id: cardId } = JSON.parse(req.body);
 
-  if (req.method === "GET") {
     try {
-      const data = await prisma.card.findMany({
-        include: {
-          user: {
-            select: {
-              name: true,
-              image: true,
-            },
-          },
-          attack: true,
-          xpgain: true
+      const data = await prisma.card.update({
+        where: {
+          id: cardId,
         },
-        take: takeCount,
-        orderBy: {
-          createdAt: "desc",
+        data: {
+          xp: {
+            increment: 15,
+          },
+          xpgain: {
+            create: [
+              {
+                user_id: userId,
+              },
+            ],
+          },
+        },
+        select: {
+          xp: true,
+          xpgain: true,
         },
       });
       return res.status(200).json(data);

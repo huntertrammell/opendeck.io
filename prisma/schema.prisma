@@ -58,6 +58,7 @@ model User {
     cards         Card[]
     accounts      Account[]
     sessions      Session[]
+    xpgain        XPGain[]
 }
 
 model Card {
@@ -70,6 +71,7 @@ model Card {
     xp          Int?
     user        User     @relation(fields: [user_id], references: [id])
     user_id     String
+    xpgain      XPGain[]
 }
 
 model Attack {
@@ -79,5 +81,14 @@ model Attack {
     description String?
     ap          Int?
     card        Card    @relation(fields: [card_id], references: [id])
+    card_id     Int
+}
+
+model XPGain {
+    id          Int       @id @default(autoincrement())
+    createdAt   DateTime  @default(now())
+    user        User      @relation(fields: [user_id], references: [id])
+    user_id     String
+    card        Card      @relation(fields: [card_id], references: [id])
     card_id     Int
 }

@@ -1,15 +1,13 @@
 import { create } from "domain";
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Card } from "../../components/ui/card";
 import { ICard } from "../../interfaces/app.interface";
-import { supabase } from "../../lib/supabase";
 
-const NewCard: NextPage = () => {
-  const { data: session } = useSession();
-  const router = useRouter()
+const NewCard: NextPage = ({ session }: any) => {
+  const router = useRouter();
 
   const [title, setTitle] = useState("Character Name");
   const [description, setDescription] = useState("Describe your character!");
@@ -42,6 +40,7 @@ const NewCard: NextPage = () => {
     title,
     description,
     image_path,
+    xpgain: [],
     attack: [
       {
         id: 0,
@@ -78,8 +77,13 @@ const NewCard: NextPage = () => {
 
   const createNewCard = async () => {
     const card = {
-      title, description, xp: 0, image_path, user_id: session?.user.id
-    }
+      // @ts-ignore
+      title,
+      description,
+      xp: 0,
+      image_path,
+      user_id: session?.user.id,
+    };
     const attacks = [
       {
         title: primaryTitle,
@@ -93,25 +97,25 @@ const NewCard: NextPage = () => {
         type: secondaryType,
         ap: +secondaryAP,
       },
-    ]
+    ];
 
     try {
       const response = await fetch("/api/cards/new", {
         method: "POST",
-        body: JSON.stringify({card, attacks})
-      })
+        body: JSON.stringify({ card, attacks }),
+      });
 
       if (!response.ok) {
-        console.error(response)
+        console.error(response);
       }
 
-      const data = response.json()
+      const data = response.json();
 
-      router.push('/admin')
+      router.push("/admin");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
   return (
     <>
       <section className="h-64 py-10 flex items-center justify-center">
@@ -125,7 +129,10 @@ const NewCard: NextPage = () => {
         <div className="w-full md:w-1/2">
           <Card card={card} />
           <div className="flex items-center justify-center pt-8">
-            <button onClick={ createNewCard } className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80">
+            <button
+              onClick={createNewCard}
+              className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80"
+            >
               Publish Card
             </button>
           </div>
@@ -336,3 +343,20 @@ const NewCard: NextPage = () => {
 };
 
 export default NewCard;
+
+export async function getServerSideProps(context: any) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}

@@ -1,11 +1,9 @@
 import { create } from "domain";
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
-const Admin: NextPage = () => {
-  const { data } = useSession();
+const Admin: NextPage = ({ session }: any) => {
 
-  console.log(data?.user);
 
   return (
     <section>
@@ -15,3 +13,20 @@ const Admin: NextPage = () => {
 };
 
 export default Admin;
+
+export async function getServerSideProps(context: any) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}

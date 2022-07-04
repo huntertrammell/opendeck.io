@@ -11,13 +11,10 @@ export const Header: FunctionComponent = () => {
 
   const { data: session, status } = useSession();
   const router = useRouter();
-  const isEditor = router.pathname === "/admin/create";
 
   const userImage =
     (session?.user?.image as string) ??
     "https://avatars.dicebear.com/api/adventurer/placeholder.svg";
-
-  console.log(session?.user);
 
   return (
     <header>

@@ -7,6 +7,7 @@ export interface ICard {
     xp: number;
     user: IUser;
     user_id: string;
+    xpgain: IXP[]
 }
 
 export interface IAttack {
@@ -21,4 +22,11 @@ export interface IAttack {
 export interface IUser {
     name: string;
     image: string;
+}
+
+export interface IXP {
+    id: number,
+    user_id: string,
+    card_id: number,
+    createdAt: string
 }
