@@ -40,10 +40,6 @@ const Admin: NextPage = ({ cards: loadedCards }: any) => {
         </div>
       </section>
       <section>
-        <div className="flex justify-between items-center flex-col sm:flex-row w-full">
-          <h2 className="text-2xl font-bold">Recent Cards</h2>
-          <div>Filter</div>
-        </div>
         {cards.length ? <CardList cards={cards} filterDelete={filterDelete} /> : <p className="bold text-xl text-center py-32">You haven&apos;t created any cards yet 🥲</p>}
       </section>
     </>

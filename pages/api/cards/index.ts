@@ -5,10 +5,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let takeCount = 20;
-  if (req.query.limit) takeCount = +(req.query.limit as string);
 
-  if (req.method === "GET") {
+  const body = JSON.parse(req.body)
+  const takeInput = body.take ? body.take : undefined;
+  const orderByInput = body.orderBy ? body.orderBy : undefined;
+
+  if (req.method === "POST") {
     try {
       const data = await prisma.card.findMany({
         include: {
@@ -21,10 +23,8 @@ export default async function handler(
           attack: true,
           xpgain: true
         },
-        take: takeCount,
-        orderBy: {
-          createdAt: "desc",
-        },
+        take: takeInput,
+        orderBy: orderByInput,
       });
       return res.status(200).json(data);
     } catch (err) {
