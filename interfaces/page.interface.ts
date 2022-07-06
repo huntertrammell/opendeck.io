@@ -5,5 +5,6 @@ export interface IHomeProps {
 }
 
 export interface ICardProps {
-  cards: ICard[];
+    cards: ICard[];
+    count: number
 }

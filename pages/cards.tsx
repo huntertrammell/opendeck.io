@@ -1,18 +1,47 @@
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CardList } from "../components/ui/cardList";
 import { ICardProps } from "../interfaces/page.interface";
 
-const Card: NextPage<ICardProps> = ({ cards }) => {
+const Card: NextPage<ICardProps> = ({ cards, count }) => {
   const { status } = useSession();
+  const [sortOption, setSortOption] = useState("Newest");
   const [sortedCards, setSortedCards] = useState(cards);
+  const [currentCount, setCurrentCount] = useState(20);
 
   const options = ["Newest", "Oldest", "Highest XP", "Lowest XP", "Title"];
 
-  const sortCards = async (e: React.FormEvent<HTMLSelectElement>) => {
-    switch (e.currentTarget.value) {
+  useEffect(() => {
+    const fetchCards = async (orderBy: any) => {
+      try {
+        const response = await fetch("http://localhost:3000/api/cards", {
+          method: "POST",
+          body: JSON.stringify({
+            take: currentCount,
+            orderBy: orderBy,
+          }),
+        });
+
+        if (!response.ok) {
+          window.bus.publish("alert", {
+            type: "error",
+            message: response.statusText,
+          });
+        }
+
+        const { cards } = await response.json();
+        setSortedCards(cards);
+      } catch (error) {
+        window.bus.publish("alert", {
+          type: "error",
+          message: error,
+        });
+      }
+    };
+
+    switch (sortOption) {
       case "Newest":
         fetchCards({ createdAt: "desc" });
         break;
@@ -29,33 +58,18 @@ const Card: NextPage<ICardProps> = ({ cards }) => {
         fetchCards({ title: "asc" });
         break;
     }
+  }, [currentCount, sortOption]);
+
+  const loadMore = () => {
+    if (currentCount < count - 20) {
+      setCurrentCount(currentCount + 20);
+    } else {
+      setCurrentCount(currentCount + (count - currentCount));
+    }
   };
 
-  const fetchCards = async (orderBy: any) => {
-    try {
-      const response = await fetch("http://localhost:3000/api/cards", {
-        method: "POST",
-        body: JSON.stringify({
-          take: 20,
-          orderBy: orderBy,
-        }),
-      });
-
-      if (!response.ok) {
-        window.bus.publish("alert", {
-          type: "error",
-          message: response.statusText,
-        });
-      }
-
-      const data = await response.json();
-      setSortedCards(data);
-    } catch (error) {
-      window.bus.publish("alert", {
-        type: "error",
-        message: error,
-      });
-    }
+  const sortCards = (e: React.FormEvent<HTMLSelectElement>) => {
+    setSortOption(e.currentTarget.value);
   };
 
   return (
@@ -80,8 +94,11 @@ const Card: NextPage<ICardProps> = ({ cards }) => {
           )}
         </div>
       </section>
-      <section>
-        <div className="flex justify-end items-center flex-col sm:flex-row w-full">
+      <section className="pb-8">
+        <div className="flex justify-between items-center flex-col sm:flex-row w-full">
+          <span className="text-gray-700 font-bold text-lg  ml-2">
+            Showing {currentCount} of {count}
+          </span>
           <div>
             <label
               htmlFor="attack_type_2"
@@ -104,6 +121,19 @@ const Card: NextPage<ICardProps> = ({ cards }) => {
           </div>
         </div>
         {cards.length && <CardList cards={sortedCards} />}
+        {currentCount < count && (
+          <div className="py-8 flex items-center justify-center">
+            <button
+              className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80 disabled:bg-gray-800 disabled:cursor-not-allowed"
+              type="button"
+              onClick={loadMore}
+              disabled={currentCount - count == 0}
+              aria-disabled={currentCount - count == 0}
+            >
+              Show more
+            </button>
+          </div>
+        )}
       </section>
     </>
   );
@@ -122,9 +152,9 @@ export async function getServerSideProps() {
     }),
   });
 
-  const data = await response.json();
+  const { cards, count } = await response.json();
 
   return {
-    props: { cards: data },
+    props: { cards, count },
   };
 }

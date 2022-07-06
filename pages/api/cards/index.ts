@@ -5,14 +5,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
-  const body = JSON.parse(req.body)
+  const body = JSON.parse(req.body);
   const takeInput = body.take ? body.take : undefined;
   const orderByInput = body.orderBy ? body.orderBy : undefined;
+  const skipInput = body.skip ? body.skip : undefined;
 
   if (req.method === "POST") {
     try {
-      const data = await prisma.card.findMany({
+      const cards = await prisma.card.findMany({
         include: {
           user: {
             select: {
@@ -21,11 +21,19 @@ export default async function handler(
             },
           },
           attack: true,
-          xpgain: true
+          xpgain: true,
         },
         take: takeInput,
+        skip: skipInput,
         orderBy: orderByInput,
       });
+
+      const count = await prisma.card.count();
+
+      const data = {
+        cards,
+        count,
+      };
       return res.status(200).json(data);
     } catch (err) {
       console.error(err);

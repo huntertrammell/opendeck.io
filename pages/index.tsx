@@ -17,16 +17,13 @@ const Home: NextPage<IHomeProps> = ({ cards }) => {
             quidem alias praesentium tenetur libero, quis eveniet sequi quo, vel
             fuga porro?
           </p>
-          <Link href="/docs">
-            <a className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80">
-              API Documentation
-            </a>
-          </Link>
         </div>
       </section>
       <section className="h-96 py-8 flex items-center flex-col md:flex-row">
         <div className="w-full md:w-1/2">
-          <h2 className="text-5xl sm:text-7xl font-bold text-primary">Lorem Ipsum</h2>
+          <h2 className="text-5xl sm:text-7xl font-bold text-primary">
+            Lorem Ipsum
+          </h2>
           <p className="pt-4 pb-8">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
             provident accusantium quasi fugit pariatur, voluptatem magni aliquid
@@ -39,11 +36,18 @@ const Home: NextPage<IHomeProps> = ({ cards }) => {
             </a>
           </Link>
         </div>
-        <div>
-
+        <div></div>
+      </section>
+      <section>
+        {cards.length && <CardList cards={cards} />}
+        <div className="flex justify-center items-center py-8">
+          <Link href="/cards">
+            <a className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80">
+              View More Cards
+            </a>
+          </Link>
         </div>
       </section>
-      <section>{cards.length && <CardList cards={cards} />}</section>
     </>
   );
 };
@@ -61,9 +65,9 @@ export async function getServerSideProps() {
     }),
   });
 
-  const data = await response.json();
+  const {cards} = await response.json();
 
   return {
-    props: { cards: data },
+    props: { cards },
   };
 }
