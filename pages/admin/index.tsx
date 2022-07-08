@@ -40,7 +40,13 @@ const Admin: NextPage = ({ cards: loadedCards }: any) => {
         </div>
       </section>
       <section>
-        {cards.length ? <CardList cards={cards} filterDelete={filterDelete} /> : <p className="bold text-xl text-center py-32">You haven&apos;t created any cards yet 🥲</p>}
+        {cards.length ? (
+          <CardList cards={cards} filterDelete={filterDelete} />
+        ) : (
+          <p className="bold text-xl text-center py-32">
+            You haven&apos;t created any cards yet 🥲
+          </p>
+        )}
       </section>
     </>
   );
@@ -53,7 +59,7 @@ export async function getServerSideProps(context: any) {
 
   const response = await fetch(
     //@ts-ignore
-    `http://localhost:3000/api/user/cards/${session?.user?.id}`
+    `${process.env.NEXTAUTH_URL}/api/user/cards/${session?.user?.id}`
   );
 
   const data = await response.json();

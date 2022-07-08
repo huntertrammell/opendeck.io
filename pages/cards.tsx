@@ -9,14 +9,14 @@ const Card: NextPage<ICardProps> = ({ cards, count }) => {
   const { status } = useSession();
   const [sortOption, setSortOption] = useState("Newest");
   const [sortedCards, setSortedCards] = useState(cards);
-  const [currentCount, setCurrentCount] = useState(20);
+  const [currentCount, setCurrentCount] = useState(cards.length);
 
   const options = ["Newest", "Oldest", "Highest XP", "Lowest XP", "Title"];
 
   useEffect(() => {
     const fetchCards = async (orderBy: any) => {
       try {
-        const response = await fetch("http://localhost:3000/api/cards", {
+        const response = await fetch("/api/cards", {
           method: "POST",
           body: JSON.stringify({
             take: currentCount,
@@ -142,7 +142,7 @@ const Card: NextPage<ICardProps> = ({ cards, count }) => {
 export default Card;
 
 export async function getServerSideProps() {
-  const response = await fetch("http://localhost:3000/api/cards", {
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cards`, {
     method: "POST",
     body: JSON.stringify({
       take: 20,
