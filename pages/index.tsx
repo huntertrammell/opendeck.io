@@ -9,7 +9,7 @@ const Home: NextPage<IHomeProps> = ({ cards }) => {
       <section className="h-96 py-10 flex items-center justify-center">
         <div className="text-center">
           <h1 className="sm:w-3/4 w-full mx-auto text-5xl sm:text-7xl font-bold">
-            <span className="text-primary">Open source</span> deck building
+            Open source <span className="text-primary">deck building </span>
             community.
           </h1>
           <p className="sm:w-1/2 w-full pt-4 pb-8 mx-auto">
