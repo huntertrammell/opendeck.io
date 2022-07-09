@@ -9,6 +9,11 @@ export interface ICardProps {
     count: number
 }
 
+export interface IDeckProps {
+  cards: ICard[];
+  count: number;
+}
+
 export interface IEditCardProps {
     card: ICard
 }

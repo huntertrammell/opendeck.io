@@ -76,14 +76,13 @@ const Card: NextPage<ICardProps> = ({ cards, count }) => {
     <>
       <section className="h-96 py-10 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-5xl sm:text-7xl font-bold text-primary">
-            Lorem Ipsum
+          <h1 className="text-5xl sm:text-7xl font-bold">
+            The <span className="text-primary">global</span> deck.
           </h1>
           <p className="sm:w-1/2 w-full pt-4 pb-8 mx-auto">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus
-            itaque facere nostrum ad sed maiores placeat aperiam obcaecati
-            quidem alias praesentium tenetur libero, quis eveniet sequi quo, vel
-            fuga porro?
+            This deck contains all cards created by the community. Show some
+            love by giving your favorite cards an XP boost or adding them to a
+            deck of your&nbsp;own!
           </p>
           {status === "authenticated" && (
             <Link href="/admin/create">
