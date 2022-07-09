@@ -2,37 +2,35 @@ import type { NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { CreateCard } from "../../components/forms/create";
-import { Card } from "../../components/ui/card";
-import { ICard } from "../../interfaces/app.interface";
-import { IEditCardProps } from "../../interfaces/page.interface";
+import { CreateCard } from "../../../components/forms/createCard";
+import { Card } from "../../../components/ui/card";
+import { ICard } from "../../../interfaces/app.interface";
 
-const EditCard: NextPage<IEditCardProps> = ({ card }) => {
+const NewCard: NextPage = () => {
   const router = useRouter();
 
   const { data: session } = useSession();
 
-  const [title, setTitle] = useState(card.title);
-  const [description, setDescription] = useState(card.description);
-  const [image_path, setImagePath] = useState(card.image_path);
+  const [title, setTitle] = useState("Character Name");
+  const [description, setDescription] = useState("Describe your character!");
+  const [image_path, setImagePath] = useState("/placeholder.png");
 
-  const [primaryTitle, setPrimaryTitle] = useState(card.attack[0].title);
+  const [primaryTitle, setPrimaryTitle] = useState("Primary attack name");
   const [primaryDescription, setPrimaryDescription] = useState(
-    card.attack[0].description
+    "Primary attack description"
   );
-  const [primaryType, setPrimaryType] = useState(card.attack[0].type);
-  const [primaryAP, setPrimaryAP] = useState(card.attack[0].ap);
+  const [primaryType, setPrimaryType] = useState("Passive");
+  const [primaryAP, setPrimaryAP] = useState(0);
 
-  const [secondaryTitle, setSecondaryTitle] = useState(card.attack[1].title);
+  const [secondaryTitle, setSecondaryTitle] = useState("Secondary attack name");
   const [secondaryDescription, setSecondaryDescription] = useState(
-    card.attack[1].description
+    "Secondary attack description"
   );
-  const [secondaryType, setSecondaryType] = useState(card.attack[1].type);
-  const [secondaryAP, setSecondaryAP] = useState(card.attack[1].ap);
+  const [secondaryType, setSecondaryType] = useState("Passive");
+  const [secondaryAP, setSecondaryAP] = useState(0);
 
-  const userCard: ICard = {
-    id: card.id,
-    xp: card.xp,
+  const card: ICard = {
+    xp: 0,
     user: {
       name: session?.user?.name as string,
       image: (session?.user?.image as string) ?? "/placeholder.png",
@@ -43,14 +41,14 @@ const EditCard: NextPage<IEditCardProps> = ({ card }) => {
     image_path,
     attack: [
       {
-        id: card.attack[0].id,
+        id: 0,
         title: primaryTitle,
         description: primaryDescription,
         type: primaryType,
         ap: primaryAP,
       },
       {
-        id: card.attack[1].id,
+        id: 1,
         title: secondaryTitle,
         description: secondaryDescription,
         type: secondaryType,
@@ -59,25 +57,23 @@ const EditCard: NextPage<IEditCardProps> = ({ card }) => {
     ],
   };
 
-  const editCard = async () => {
+  const createNewCard = async () => {
     const card = {
       title,
       description,
+      xp: 0,
       image_path,
       // @ts-ignore
       user_id: session?.user?.id,
     };
-
     const attacks = [
       {
-        id: userCard.attack[0].id,
         title: primaryTitle,
         description: primaryDescription,
         type: primaryType,
         ap: +primaryAP,
       },
       {
-        id: userCard.attack[1].id,
         title: secondaryTitle,
         description: secondaryDescription,
         type: secondaryType,
@@ -86,8 +82,8 @@ const EditCard: NextPage<IEditCardProps> = ({ card }) => {
     ];
 
     try {
-      const response = await fetch(`/api/cards/${userCard.id}`, {
-        method: "PUT",
+      const response = await fetch("/api/cards/new", {
+        method: "POST",
         body: JSON.stringify({ card, attacks }),
       });
 
@@ -101,9 +97,9 @@ const EditCard: NextPage<IEditCardProps> = ({ card }) => {
       }
       window.bus.publish("alert", {
         type: "success",
-        message: "Your card has been updated!",
+        message: "Your card has been published!",
       });
-      router.push("/admin");
+      router.push("/admin/cards");
     } catch (error) {
       window.bus.publish("alert", {
         type: "error",
@@ -140,22 +136,28 @@ const EditCard: NextPage<IEditCardProps> = ({ card }) => {
 
   return (
     <>
-      <section className="h-64 py-10 flex items-center justify-center">
+      <section className="h-96 py-10 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-5xl sm:text-7xl font-bold text-primary">
-            Create a new card
+          <h1 className="text-5xl sm:text-7xl font-bold">
+            Create a <span className="text-primary">new</span> card.
           </h1>
+          <p className="sm:w-1/2 w-full pt-4 pb-8 mx-auto">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus
+            itaque facere nostrum ad sed maiores placeat aperiam obcaecati
+            quidem alias praesentium tenetur libero, quis eveniet sequi quo, vel
+            fuga porro?
+          </p>
         </div>
       </section>
       <section className="flex items-center flex-col md:flex-row">
         <div className="w-full md:w-1/2">
-          <Card card={userCard} />
+          <Card card={card} />
           <div className="flex items-center justify-center pt-8">
             <button
-              onClick={editCard}
+              onClick={createNewCard}
               className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80"
             >
-              Publish Card Changes
+              Publish Card
             </button>
           </div>
         </div>
@@ -165,7 +167,7 @@ const EditCard: NextPage<IEditCardProps> = ({ card }) => {
   );
 };
 
-export default EditCard;
+export default NewCard;
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context);
@@ -179,22 +181,7 @@ export async function getServerSideProps(context: any) {
     };
   }
 
-  const card_id = context.query.id;
-
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/cards/${card_id}`);
-
-  const card = await response.json();
-
-  //@ts-ignore
-  if (card.user_id !== session.user.id) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
   return {
-    props: { card },
+    props: { session },
   };
 }

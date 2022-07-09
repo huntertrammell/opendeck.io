@@ -22,10 +22,10 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
 
   const showVoteBtn =
     status === "authenticated" &&
-    (router.asPath == "/cards" || router.asPath == "/admin");
+    (router.asPath == "/cards" || router.asPath == "/admin/cards");
 
   const showAccountControls =
-    status === "authenticated" && router.asPath === "/admin";
+    status === "authenticated" && router.asPath === "/admin/cards";
 
   const getLevel = () => {
     if (card.xp < 500) {
@@ -74,7 +74,7 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
       <div className="flex justify-end items-center">
         {showAccountControls && (
           <>
-            <Link href={`/admin/edit?id=${card.id}`}>
+            <Link href={`/admin/cards/edit?id=${card.id}`}>
               <a>
                 <span className="sr-only">Edit Card</span>
                 <svg

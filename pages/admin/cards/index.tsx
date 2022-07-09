@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import { CardList } from "../../components/ui/cardList";
-import { ICard } from "../../interfaces/app.interface";
+import { CardList } from "../../../components/ui/cardList";
+import { ICard } from "../../../interfaces/app.interface";
 
 const Admin: NextPage = ({ cards: loadedCards }: any) => {
   const { data, status } = useSession();
@@ -21,8 +21,8 @@ const Admin: NextPage = ({ cards: loadedCards }: any) => {
     <>
       <section className="h-96 py-10 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-5xl sm:text-7xl font-bold text-primary">
-            Your Card Library
+          <h1 className="text-5xl sm:text-7xl font-bold">
+            Your Card <span className="text-primary">Library</span>.
           </h1>
           <p className="sm:w-1/2 w-full pt-4 pb-8 mx-auto">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus
@@ -31,7 +31,7 @@ const Admin: NextPage = ({ cards: loadedCards }: any) => {
             fuga porro?
           </p>
           {status === "authenticated" && (
-            <Link href="/admin/create">
+            <Link href="/admin/cards/create">
               <a className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80">
                 New Card
               </a>

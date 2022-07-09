@@ -161,9 +161,9 @@ export const Header: FunctionComponent = () => {
                         tabIndex={-1}
                         id="user-menu"
                       >
-                        <Link href="/admin">
+                        <Link href="/admin/cards">
                           <a className="block px-4 py-2 text-sm text-gray-700">
-                            Profile
+                            My Cards
                           </a>
                         </Link>
                         <button

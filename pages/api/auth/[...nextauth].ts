@@ -12,7 +12,7 @@ export default NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/admin",
+    signIn: "/",
     signOut: "/",
   },
   providers: [

@@ -21,7 +21,7 @@ const Decks: NextPage<IDeckProps> = ({ cards, count }) => {
             sint optio nisi, asperiores id molestias.
           </p>
           {status === "authenticated" && (
-            <Link href="/admin/create">
+            <Link href="admin/decks/create">
               <a className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80">
                 New Deck
               </a>
