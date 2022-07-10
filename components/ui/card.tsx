@@ -20,12 +20,12 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
     });
   }
 
-  const showVoteBtn =
+  const showCardControls =
     status === "authenticated" &&
     (router.asPath == "/cards" || router.asPath == "/admin/cards");
 
-  const showAccountControls =
-    status === "authenticated" && router.asPath === "/admin/cards";
+  const showCardAdminControls =
+      status === "authenticated" && router.asPath === "/admin/cards";
 
   const getLevel = () => {
     if (card.xp < 500) {
@@ -72,7 +72,7 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
   return (
     <article className="max-w-sm my-4 mx-auto">
       <div className="flex justify-end items-center">
-        {showAccountControls && (
+        {showCardAdminControls && (
           <>
             <Link href={`/admin/cards/edit?id=${card.id}`}>
               <a>
@@ -120,15 +120,39 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
             </button>
           </>
         )}
-        {showVoteBtn && (
-          <button
-            title="Increase XP"
-            aria-label="Increase XP"
-            className={`${hasUserVoted ? "text-green-500" : ""} font-black`}
-            onClick={assignXP}
-          >
-            XP&uarr;
-          </button>
+        {showCardControls && (
+          <>
+            <button
+              data-a11y-dialog-show="deck-selection-dialog"
+              title="Add to deck"
+              data-card-id={card.id}
+              aria-label="Add to deck"
+            >
+              <svg
+                width="24"
+                height="24"
+                className="h-10 w-10"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M12 16L17 18V8L12 6L7 8V18L12 16ZM9 15.0459L12 13.8459L15 15.0459V9.35407L12 8.15407L9 9.35407V15.0459Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+            <button
+              title="Increase XP"
+              aria-label="Increase XP"
+              className={`${hasUserVoted ? "text-green-500" : ""} font-black`}
+              onClick={assignXP}
+            >
+              XP&uarr;
+            </button>
+          </>
         )}
       </div>
       <div className="bg-gray-800 p-2 rounded-xl">

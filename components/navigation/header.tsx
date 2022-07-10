@@ -166,6 +166,11 @@ export const Header: FunctionComponent = () => {
                             My Cards
                           </a>
                         </Link>
+                        <Link href="/admin/decks">
+                          <a className="block px-4 py-2 text-sm text-gray-700">
+                            My Decks
+                          </a>
+                        </Link>
                         <button
                           className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"

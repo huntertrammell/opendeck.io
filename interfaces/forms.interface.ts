@@ -25,3 +25,10 @@ export interface ICreateCardProps {
   secondaryAP: number;
   setSecondaryAP: (secondaryAP: number) => any;
 }
+
+export interface ICreateDeckProps {
+  title: string;
+  setTitle: (title: string) => any;
+  description: string;
+  setDescription: (description: string) => any;
+}

@@ -30,13 +30,11 @@ const Admin: NextPage = ({ cards: loadedCards }: any) => {
             quidem alias praesentium tenetur libero, quis eveniet sequi quo, vel
             fuga porro?
           </p>
-          {status === "authenticated" && (
-            <Link href="/admin/cards/create">
-              <a className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80">
-                New Card
-              </a>
-            </Link>
-          )}
+          <Link href="/admin/cards/create">
+            <a className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80">
+              New Card
+            </a>
+          </Link>
         </div>
       </section>
       <section>

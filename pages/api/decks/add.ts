@@ -16,12 +16,12 @@ export default async function handler(
     return res.status(401).json({ message: "Not Authenticated!" });
   }
 
-  const deck = JSON.parse(req.body);
+  const newCard = JSON.parse(req.body);
 
   try {
     const data = await prisma.deckCards.create({
       data: {
-        ...deck,
+        ...newCard,
       },
     });
 

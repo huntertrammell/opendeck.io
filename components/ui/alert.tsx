@@ -18,7 +18,7 @@ export const Alert: FunctionComponent = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-3 w-full max-w-3xl flex flex-col justify-center align-center left-1/2 transform -translate-x-1/2">
+    <div className="fixed z-20 bottom-3 w-full max-w-3xl flex flex-col justify-center align-center left-1/2 transform -translate-x-1/2">
       {alerts &&
         alerts.map((alert) => (
           <div

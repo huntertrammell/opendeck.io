@@ -9,6 +9,15 @@ module.exports = {
       colors: {
         primary: "#894dff",
       },
+      animation: {
+        "fade-in": "fade-in 200ms linear",
+      },
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+      },
     },
   },
   plugins: [],

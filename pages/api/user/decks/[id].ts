@@ -1,18 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
+import prisma from "../../../../lib/prisma";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const body = JSON.parse(req.body);
-  const takeInput = body.take ? body.take : undefined;
-  const orderByInput = body.orderBy ? body.orderBy : undefined;
-  const skipInput = body.skip ? body.skip : undefined;
+  let userId;
 
-  if (req.method === "POST") {
+  if (req.query.id) {
+    userId = req.query.id as string;
+  }
+
+  if (req.method === "GET") {
     try {
-      const decks = await prisma.deck.findMany({
+      const data = await prisma.deck.findMany({
+        where: {
+          user_id: userId,
+        },
         include: {
           user: {
             select: {
@@ -22,7 +26,18 @@ export default async function handler(
           },
           deckCards: {
             select: {
-              card: true,
+              card: {
+                include: {
+                  user: {
+                    select: {
+                      name: true,
+                      image: true,
+                    },
+                  },
+                  attack: true,
+                  xpgain: true,
+                },
+              },
             },
           },
           _count: {
@@ -31,17 +46,12 @@ export default async function handler(
             },
           },
         },
-        take: takeInput,
-        skip: skipInput,
-        orderBy: orderByInput,
+        take: 20,
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
-      const count = await prisma.deck.count();
-
-      const data = {
-        decks,
-        count,
-      };
       return res.status(200).json(data);
     } catch (err) {
       console.error(err);

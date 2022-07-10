@@ -1,4 +1,4 @@
-import { ICard } from "./app.interface";
+import { ICard, IDeck } from "./app.interface";
 
 export interface IHomeProps {
     cards: ICard[]
@@ -10,10 +10,22 @@ export interface ICardProps {
 }
 
 export interface IDeckProps {
-  cards: ICard[];
+  decks: IDeck[];
   count: number;
 }
 
 export interface IEditCardProps {
     card: ICard
+}
+
+export interface IDeckListingPageProps {
+    deck: IDeck;
+}
+
+export interface IEditDeckProps {
+    deck: IDeck;
+}
+
+export interface IUserDeckProps {
+  decks: IDeck[];
 }
