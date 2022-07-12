@@ -68,7 +68,7 @@ export const Header: FunctionComponent = () => {
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex-shrink-0 sm:flex items-center hidden">
                 <Link href="/">
-                  <a className="text-xl text-white font-bold">opendeck.io</a>
+                  <a className="text-xl text-white font-bold">opendeck</a>
                 </Link>
               </div>
               <div className="hidden sm:block sm:ml-6">

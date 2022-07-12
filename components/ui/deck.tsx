@@ -14,7 +14,7 @@ export const Deck: FunctionComponent<IDeckProps> = ({ deck, handleDelete }) => {
     status === "authenticated" && router.asPath == "/admin/decks";
 
   return (
-    <article className="max-w-xs my-4 mx-auto">
+    <article className="max-w-sm my-4 mx-auto">
       <div className="flex justify-end items-center">
         {showDeckAdminControls && (
           <>

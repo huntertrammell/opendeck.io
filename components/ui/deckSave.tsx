@@ -24,6 +24,10 @@ export const DeckSave: FunctionComponent = () => {
       }
     });
 
+    window.bus.subscribe("modal:dismiss", () => {
+      dialog.hide()
+    })
+
     const getDecks = async () => {
       try {
         //@ts-ignore
@@ -71,6 +75,9 @@ export const DeckSave: FunctionComponent = () => {
         type: "success",
         message: "Card has been added to your deck",
       });
+
+      window.bus.publish("modal:dismiss", {})
+
     } catch (error) {
       window.bus.publish("alert", {
         type: "error",

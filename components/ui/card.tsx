@@ -28,10 +28,10 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
       status === "authenticated" && router.asPath === "/admin/cards";
 
   const getLevel = () => {
-    if (card.xp < 500) {
+    if (card.xp < 200) {
       return 1;
     } else {
-      return Math.floor(card.xp / 500);
+      return Math.ceil(card.xp / 200);
     }
   };
 

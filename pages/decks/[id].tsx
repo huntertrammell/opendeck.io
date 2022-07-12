@@ -10,24 +10,25 @@ const DeckListing: NextPage<IDeckListingPageProps> = ({ deck }) => {
 
   return (
     <>
-      <section className="h-96 py-10 flex items-center justify-center">
+      <section className="min-h-96 py-10 flex items-center justify-center">
         <div className="text-center">
           <h1 className="w-full mx-auto text-5xl sm:text-7xl font-bold">
             {deck.title}
           </h1>
-          <p className="sm:w-1/2 w-full py-4 mx-auto">
-            {deck.description}
-          </p>
-          <p className="text-center font-bold">
-            <span className="text-primary">{deck._count.deckCards}</span>{" "}
-            cards
-          </p>
+          <p className="sm:w-1/2 w-full py-4 mx-auto">{deck.description}</p>
         </div>
       </section>
-      <section className="pb-8 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-4">
-        {deck.deckCards.map((card, index) => (
-          <Card card={card.card} key={index} />
-        ))}
+      <section>
+        <div className="flex justify-start items-center flex-col sm:flex-row w-full">
+          <span className="text-gray-700 font-bold text-lg  ml-2">
+            {deck._count.deckCards} cards
+          </span>
+        </div>
+        <div className="pb-8 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-4">
+          {deck.deckCards.map((card, index) => (
+            <Card card={card.card} key={index} />
+          ))}
+        </div>
       </section>
     </>
   );

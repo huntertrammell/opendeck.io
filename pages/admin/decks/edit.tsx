@@ -83,7 +83,7 @@ const EditDeck: NextPage<IEditDeckProps> = ({ deck }) => {
 
   return (
     <>
-      <section className="h-96 py-10 flex items-center justify-center">
+      <section className="min-h-96 py-10 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-5xl sm:text-7xl font-bold">
             <span className="text-primary">Update</span> your deck.

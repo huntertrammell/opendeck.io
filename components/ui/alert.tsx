@@ -23,7 +23,7 @@ export const Alert: FunctionComponent = () => {
         alerts.map((alert) => (
           <div
             key={alert.uid}
-            role="alert"
+            role="status"
             className={`${classNames({
               "text-red-500": alert.type == "error",
               "text-green-500": alert.type == "success",
@@ -34,6 +34,7 @@ export const Alert: FunctionComponent = () => {
               height="24"
               viewBox="0 0 24 24"
               className="mr-2"
+              aria-hidden="true"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
