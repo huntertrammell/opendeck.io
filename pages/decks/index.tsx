@@ -61,10 +61,8 @@ const Decks: NextPage<IDeckProps> = ({ decks, count }) => {
             <span className="text-primary">community</span>.
           </h1>
           <p className="sm:w-1/2 w-full pt-4 pb-8 mx-auto">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-            expedita explicabo voluptatibus obcaecati voluptates labore ea
-            similique numquam omnis inventore ratione corporis tempore dolorum,
-            sint optio nisi, asperiores id molestias.
+            Decks allow for you to group cards together so that they can be used
+            in a game in a custom app or as a way to show off your collection.
           </p>
           {status === "authenticated" && (
             <Link href="admin/decks/create">

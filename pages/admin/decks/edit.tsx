@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -103,6 +104,7 @@ const EditDeck: NextPage<IEditDeckProps> = ({ deck }) => {
           <thead className="font-bold border-b-2 border-gray-800 px-2">
             <tr>
               <th>ID</th>
+              <th>Cover</th>
               <th>Title</th>
               <th>Description</th>
               <th>Delete</th>
@@ -115,6 +117,7 @@ const EditDeck: NextPage<IEditDeckProps> = ({ deck }) => {
                 className="bg-white border-b-2 border-gray-400"
               >
                 <td className="px-2">{card.card.id}</td>
+                <td><img className="h-24 w-24 object-cover" src={card.card.image_path} alt={`${card.card.title} Cover Art`} /></td>
                 <td className="px-2">{card.card.title}</td>
                 <td className="px-2">{card.card.description}</td>
                 <td className="px-2">

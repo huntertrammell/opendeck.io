@@ -1,12 +1,58 @@
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Card } from "../../components/ui/card";
+import { IDeck } from "../../interfaces/app.interface";
 import { IDeckListingPageProps } from "../../interfaces/page.interface";
 
 const DeckListing: NextPage<IDeckListingPageProps> = ({ deck }) => {
   const { status } = useSession();
-  console.log(deck);
+  const router = useRouter();
+  const [paginatedDeck, setPaginatedDeck] = useState<IDeck>(deck);
+  const [currentCount, setCurrentCount] = useState(deck._count.deckCards);
+
+  const loadMore = () => {
+    if (currentCount < deck._count.deckCards - 20) {
+      setCurrentCount(currentCount + 20);
+    } else {
+      setCurrentCount(currentCount + (deck._count.deckCards - currentCount));
+    }
+  };
+
+  useEffect(() => {
+    const fetchDeck = async () => {
+      try {
+        const response = await fetch(
+          `/api/decks/cards`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              id: router.query.id,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          window.bus.publish("alert", {
+            type: "error",
+            message: response.statusText,
+          });
+        }
+
+        const deck = await response.json();
+        setPaginatedDeck(deck);
+      } catch (error) {
+        window.bus.publish("alert", {
+          type: "error",
+          message: error,
+        });
+      }
+    };
+
+    fetchDeck();
+  }, [currentCount]);
 
   return (
     <>
@@ -25,10 +71,23 @@ const DeckListing: NextPage<IDeckListingPageProps> = ({ deck }) => {
           </span>
         </div>
         <div className="pb-8 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-4">
-          {deck.deckCards.map((card, index) => (
+          {paginatedDeck.deckCards.map((card, index) => (
             <Card card={card.card} key={index} />
           ))}
         </div>
+        {currentCount < deck._count.deckCards && (
+          <div className="py-8 flex items-center justify-center">
+            <button
+              className="bg-primary font-semibold text-white py-2 px-4 rounded hover:opacity-80 disabled:bg-gray-800 disabled:cursor-not-allowed"
+              type="button"
+              onClick={loadMore}
+              disabled={currentCount - deck._count.deckCards == 0}
+              aria-disabled={currentCount - deck._count.deckCards == 0}
+            >
+              Show more
+            </button>
+          </div>
+        )}
       </section>
     </>
   );
