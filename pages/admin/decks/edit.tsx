@@ -65,8 +65,8 @@ const EditDeck: NextPage<IEditDeckProps> = ({ deck }) => {
         type: "success",
         message: "Your deck has been updated!",
       });
-        
-        router.push('/admin/decks')
+
+      router.push("/admin/decks");
     } catch (error) {
       window.bus.publish("alert", {
         type: "error",
@@ -117,7 +117,13 @@ const EditDeck: NextPage<IEditDeckProps> = ({ deck }) => {
                 className="bg-white border-b-2 border-gray-400"
               >
                 <td className="px-2">{card.card.id}</td>
-                <td><img className="h-24 w-24 object-cover" src={card.card.image_path} alt={`${card.card.title} Cover Art`} /></td>
+                <td>
+                  <img
+                    className="h-24 w-24 object-cover"
+                    src={card.card.image_path}
+                    alt={`${card.card.title} Cover Art`}
+                  />
+                </td>
                 <td className="px-2">{card.card.title}</td>
                 <td className="px-2">{card.card.description}</td>
                 <td className="px-2">
@@ -181,7 +187,7 @@ export async function getServerSideProps(context: any) {
   );
 
   const { deck } = await response.json();
-  //@ts-ignore
+
   if (deck.user_id !== session.user.id) {
     return {
       redirect: {

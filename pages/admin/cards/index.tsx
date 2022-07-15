@@ -56,7 +56,6 @@ export async function getServerSideProps(context: any) {
   const session = await getSession(context);
 
   const response = await fetch(
-    //@ts-ignore
     `${process.env.NEXTAUTH_URL}/api/user/cards/${session?.user?.id}`
   );
 

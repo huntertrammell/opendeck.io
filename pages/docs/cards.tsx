@@ -68,7 +68,7 @@ const Cards: NextPage = () => {
               Using this API endpoint you can retrieve cards from the global
               deck, methods are available to assist with pagination and sorting.
             </p>
-            <ul className="list-disc">
+            <ul className="list-disc ml-4 pt-4">
               <li>
                 <span className="font-bold">Method:</span> POST
               </li>
@@ -89,16 +89,17 @@ const Cards: NextPage = () => {
                     the call.
                   </li>
                 </ul>
-                <div className="mt-2">
-                  <span className="font-bold">Example Body:</span>
-                  <pre className="p-2 bg-gray-800 text-white">
-                    {JSON.stringify(postBody, null, 2)}
-                  </pre>
-                </div>
               </li>
             </ul>
+            <div className="mt-2">
+              <span className="font-bold">Example Body:</span>
+              <pre className="p-2 bg-gray-800 text-white">
+                {JSON.stringify(postBody, null, 2)}
+              </pre>
+            </div>
           </div>
           <div className="w-full md:w-1/2 p-2">
+            <span className="font-bold">Example Response:</span>
             <JSONTree
               data={allCards}
               hideRoot={true}
@@ -118,13 +119,14 @@ const Cards: NextPage = () => {
             <p>
               Using this API endpoint you can retrieve a card by it&apos;s ID.
             </p>
-            <ul className="list-disc">
+            <ul className="list-disc ml-4 pt-4">
               <li>
                 <span className="font-bold">Method:</span> GET
               </li>
             </ul>
           </div>
           <div className="w-full md:w-1/2 p-2">
+            <span className="font-bold">Example Response:</span>
             <JSONTree data={singleCard} hideRoot={true} />
           </div>
         </div>

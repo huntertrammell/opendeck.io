@@ -6,7 +6,6 @@ import { Deck } from "../../../components/ui/deck";
 import { IUserDeckProps } from "../../../interfaces/page.interface";
 
 const Decks: NextPage<IUserDeckProps> = ({ decks }) => {
-
   const [filteredDecks, setFilteredDecks] = useState(decks);
 
   const handleDelete = async (id: string) => {
@@ -59,10 +58,18 @@ const Decks: NextPage<IUserDeckProps> = ({ decks }) => {
           </Link>
         </div>
       </section>
-      <section className="pb-8 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-4">
-        {filteredDecks.map((deck) => (
-          <Deck deck={deck} key={deck.id} handleDelete={handleDelete} />
-        ))}
+      <section>
+        {filteredDecks.length ? (
+          <div className="pb-8 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-4">
+            {filteredDecks.map((deck) => (
+              <Deck deck={deck} key={deck.id} handleDelete={handleDelete} />
+            ))}
+          </div>
+        ) : (
+          <p className="bold text-xl text-center py-32">
+            You haven&apos;t created any decks yet 🥲
+          </p>
+        )}
       </section>
     </>
   );
@@ -83,7 +90,6 @@ export async function getServerSideProps(context: any) {
   }
 
   const response = await fetch(
-    //@ts-ignore
     `${process.env.NEXTAUTH_URL}/api/user/decks/${session?.user?.id}`
   );
 

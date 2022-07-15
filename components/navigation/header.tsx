@@ -1,9 +1,9 @@
-import { stat } from "fs";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FunctionComponent, useEffect, useState } from "react";
+import { Login } from "../ui/login";
 
 export const Header: FunctionComponent = () => {
   const [isUserMenuExpanded, setIsUserMenuExpanded] = useState(false);
@@ -14,7 +14,31 @@ export const Header: FunctionComponent = () => {
 
   const userImage =
     (session?.user?.image as string) ??
-    "https://avatars.dicebear.com/api/adventurer/placeholder.svg";
+    `https://avatars.dicebear.com/api/adventurer/${session?.user?.id}.svg`;
+
+  useEffect(() => {
+    // Close open menu's when clicked outside
+    document.addEventListener("click", (e: Event) => {
+      const mobileMenu = document.getElementById(
+        "mobile_menu"
+      ) as HTMLButtonElement;
+      const profileMenu = document.getElementById(
+        "profile_menu"
+      ) as HTMLButtonElement;
+
+      if (mobileMenu) {
+        if (!mobileMenu?.contains(e?.target as HTMLElement)) {
+          setIsMobileMenuExpanded(false);
+        }
+      }
+
+      if (profileMenu) {
+        if (!profileMenu?.contains(e?.target as HTMLElement)) {
+          setIsUserMenuExpanded(false);
+        }
+      }
+    });
+  }, []);
 
   return (
     <header>
@@ -23,6 +47,7 @@ export const Header: FunctionComponent = () => {
           <div className="relative flex items-center justify-between h-16">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <button
+                id="mobile_menu"
                 type="button"
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
                 aria-controls="mobile-menu"
@@ -120,19 +145,20 @@ export const Header: FunctionComponent = () => {
               <div className="ml-3 relative">
                 {status === "unauthenticated" && (
                   <button
+                    type="button"
+                    onClick={() => window.bus.publish("login:show", {})}
                     className="bg-primary font-semibold text-white text-base py-2 px-4 rounded hover:opacity-80"
-                    onClick={() => signIn("github")}
                   >
-                    Sign in with GitHub
+                    Sign in
                   </button>
                 )}
                 {status === "authenticated" && (
                   <>
                     <div>
                       <button
+                        id="profile_menu"
                         type="button"
                         className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-primary overflow-hidden"
-                        id="user-menu-button"
                         aria-expanded={isUserMenuExpanded ? true : false}
                         aria-haspopup="true"
                         onClick={() =>
@@ -226,6 +252,7 @@ export const Header: FunctionComponent = () => {
           </div>
         )}
       </nav>
+      <Login />
     </header>
   );
 };

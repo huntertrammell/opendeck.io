@@ -17,8 +17,7 @@ const NewDeck: NextPage = () => {
         method: "POST",
         body: JSON.stringify({
           title,
-            description,
-          //@ts-ignore
+          description,
           user_id: session?.user?.id,
         }),
       });

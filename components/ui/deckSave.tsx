@@ -30,7 +30,6 @@ export const DeckSave: FunctionComponent = () => {
 
     const getDecks = async () => {
       try {
-        //@ts-ignore
         const response = await fetch(`/api/decks/${session?.user?.id}`);
 
         if (!response.ok) {
@@ -54,7 +53,6 @@ export const DeckSave: FunctionComponent = () => {
 
   const addToDeck = async (deckId: string) => {
     try {
-      //@ts-ignore
       const response = await fetch("/api/decks/add", {
         method: "POST",
         body: JSON.stringify({

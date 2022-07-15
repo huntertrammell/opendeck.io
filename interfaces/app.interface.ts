@@ -1,3 +1,5 @@
+import { Session } from "next-auth";
+
 export interface ICard {
   id?: number;
   title: string;
@@ -47,4 +49,8 @@ export interface IDeck {
   _count: {
     deckCards: number;
   };
+}
+
+export interface appSession extends Session {
+  id: string;
 }

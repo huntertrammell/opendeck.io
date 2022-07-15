@@ -191,7 +191,6 @@ export async function getServerSideProps(context: any) {
 
   const card = await response.json();
 
-  //@ts-ignore
   if (card.user_id !== session.user.id) {
     return {
       redirect: {

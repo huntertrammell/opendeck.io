@@ -15,7 +15,6 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
 
   if (card.xpgain) {
     hasUserVoted = card.xpgain.some((xp) => {
-      // @ts-ignore
       return xp.user_id === session?.user?.id;
     });
   }

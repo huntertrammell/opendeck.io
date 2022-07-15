@@ -54,8 +54,7 @@ export const CreateCard: FunctionComponent<ICreateCardProps> = ({
     try {
       const { data, error } = await supabase.storage
         .from("images")
-        //@ts-ignore
-        .upload(`${session?.user?.id}/${uid()}${file.name}`, file);
+        .upload(`${session?.user?.id}/${uid()}${file?.name}`, file as File);
 
       if (error) {
         window.bus.publish("alert", {
