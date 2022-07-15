@@ -42,7 +42,7 @@ export default NextAuth({
       return token;
     },
     async session({ session, token, user }) {
-      const sess: Session = {
+      const sess: any = {
         ...session,
         user: {
           ...session.user,
