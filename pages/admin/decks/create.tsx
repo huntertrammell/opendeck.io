@@ -34,7 +34,7 @@ const NewDeck: NextPage = () => {
         type: "success",
         message: "Your deck has been published!",
       });
-      //router.push("/admin/decks");
+      router.push("/admin/decks");
     } catch (error) {
       window.bus.publish("alert", {
         type: "error",
