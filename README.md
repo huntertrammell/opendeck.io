@@ -15,6 +15,7 @@ Built with ❤️ for the **Hashnode x PlanetScale Hackathon**
 - TypeScript
 - Tailwind CSS
 - PlanetScale
+- Prisma
 - Supabase (image storage)
 
 
