@@ -159,12 +159,14 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
           <span className="bg-gray-800 text-white text-sm italic py-1 px-2 rounded-br-xl absolute top-0 left-0 font-bold">
             Level {getLevel()}
           </span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={card.image_path}
-            alt={`${card.title} cover art`}
-            className="object-cover h-64 w-96"
-          />
+          <div className="relative h-64 w-96">
+            <Image
+              src={card.image_path}
+              alt={`${card.title} cover art`}
+              className="object-cover"
+              layout="fill"
+            />
+          </div>
           <span className="absolute bottom-0 right-0 bg-gray-800 text-white text-sm px-2 py-2 flex items-center justify-center rounded-tl-2xl">
             <span className="rounded-full overflow-hidden h-6 w-6 mr-2">
               <Image

@@ -6,6 +6,7 @@ const nextConfig = {
       "avatars.dicebear.com",
       "avatars.githubusercontent.com",
       "pbs.twimg.com",
+      "kdlxzoehmofowjajguln.supabase.co",
     ],
   },
 };

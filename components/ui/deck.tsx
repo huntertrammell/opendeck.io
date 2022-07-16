@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { FunctionComponent } from "react";
 import Image from "next/image";
 import { IDeckProps } from "../../interfaces/ui.interface";
@@ -67,7 +66,7 @@ export const Deck: FunctionComponent<IDeckProps> = ({ deck, handleDelete }) => {
       </div>
       <div className="bg-gray-800 p-2 rounded-xl">
         <div className="text-white rounded-xl">
-          <div className="relative">
+          <div className="relative rounded-tl-xl rounded-tr-xl overflow-hidden">
             <span className="absolute top-0 left-0 bg-gray-800 text-white text-sm px-2 py-2 flex items-center justify-center rounded-br-2xl">
               <span className="rounded-full overflow-hidden h-6 w-6 mr-2">
                 <Image
@@ -82,19 +81,23 @@ export const Deck: FunctionComponent<IDeckProps> = ({ deck, handleDelete }) => {
             <span className="absolute top-0 right-0 bg-gray-800 text-white p-2 rounded-bl-xl">
               {deck._count.deckCards}
             </span>
-            {deck.deckCards.length ? (
-              <img
-                src={deck.deckCards[0].card.image_path}
-                alt={`${deck.deckCards[0].card.title} cover art`}
-                className="object-cover h-64 w-96"
-              />
-            ) : (
-              <img
-                src="/placeholder.png"
-                alt={`placeholder cover art`}
-                className="object-cover h-64 w-96"
-              />
-            )}
+            <div className="relative h-64 w-96">
+              {deck.deckCards.length ? (
+                <Image
+                  src={deck.deckCards[0].card.image_path}
+                  alt={`${deck.deckCards[0].card.title} cover art`}
+                  className="object-cover"
+                  layout="fill"
+                />
+              ) : (
+                <Image
+                  src="/placeholder.png"
+                  alt={`placeholder cover art`}
+                  className="object-cover"
+                  layout="fill"
+                />
+              )}
+            </div>
           </div>
           <div className="p-2">
             <div className="pb-6">

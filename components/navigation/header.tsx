@@ -93,11 +93,13 @@ export const Header: FunctionComponent = () => {
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex-shrink-0 sm:flex items-center hidden">
                 <Link href="/">
-                  <a className="text-xl text-white font-bold">opendeck</a>
+                  <a className="text-xl text-white font-bold pt-2">
+                    <Image src="/opendeck-logo.svg" width={175} height={50} alt="Opendeck logo"/>
+                  </a>
                 </Link>
               </div>
-              <div className="hidden sm:block sm:ml-6">
-                <div className="flex space-x-4">
+              <div className="hidden sm:block sm:ml-2 sm:pt-2">
+                <div className="flex space-x-4 items-center h-full">
                   <Link href="/about">
                     <a
                       className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
