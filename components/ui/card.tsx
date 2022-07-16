@@ -156,7 +156,7 @@ export const Card: FunctionComponent<ICardProps> = ({ card, handleDelete }) => {
       </div>
       <div className="bg-gray-800 p-2 rounded-xl">
         <div className="relative rounded-tl-xl rounded-tr-xl overflow-hidden">
-          <span className="bg-gray-800 text-white text-sm italic py-1 px-2 rounded-br-xl absolute top-0 left-0 font-bold">
+          <span className="bg-gray-800 text-white text-sm italic py-1 px-2 rounded-br-xl absolute top-0 left-0 font-bold z-10">
             Level {getLevel()}
           </span>
           <div className="relative h-64 w-96">
