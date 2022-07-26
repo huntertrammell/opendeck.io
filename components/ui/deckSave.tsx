@@ -86,7 +86,7 @@ export const DeckSave: FunctionComponent = () => {
 
   return (
     <div
-      className="flex fixed top-0 bottom-0 left-0 right-0 z-10 dialog-container"
+      className="flex fixed top-0 bottom-0 left-0 right-0 z-20 dialog-container"
       id="deck-selection-dialog"
       aria-hidden="true"
       aria-labelledby="dialog-title"
